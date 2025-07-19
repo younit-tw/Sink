@@ -3,7 +3,7 @@ import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
 
 export default eventHandler(async (event) => {
-  const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
+  const { pathname: slug } = parsePath(decodeURIComponent(event.path).replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
   const { slugRegex, reserveSlug } = useAppConfig(event)
   const { homeURL, linkCacheTtl, redirectWithQuery, caseSensitive } = useRuntimeConfig(event)
   const { cloudflare } = event.context

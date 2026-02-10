@@ -35,7 +35,7 @@
     {
       "binding": "KV",
       "preview_id": "ef93d42dc4b34969bab404d2e80f8dd3",
-      "id": "ef93d42dc4b34969bab404d2e80f8dd3" // IMPORTANT: Change this to your KV namespace ID
+      "id": "8f3881dadc88440ca202a68fa18f0e28" // IMPORTANT: Change this to your KV namespace ID
     }
   ],
   "r2_buckets": [

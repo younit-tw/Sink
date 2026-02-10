@@ -45,7 +45,8 @@ export function generateCloakingHtml(link: Link, targetUrl: string, baseUrl: str
 </html>`
 }
 
-export function generatePasswordHtml(slug: string, hasError: boolean = false): string {
+export function generatePasswordHtml(slug: string, hasError: boolean = false, action?: string): string {
+  const actionUrl = action ?? `/${slug}`
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -69,7 +70,7 @@ export function generatePasswordHtml(slug: string, hasError: boolean = false): s
 <body>
     <div class="card">
         <h1>Password Required</h1>${hasError ? '\n        <p class="error">Incorrect password</p>' : ''}
-        <form method="POST" action="/${escape(slug)}">
+        <form method="POST" action="${escape(actionUrl)}">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required autofocus placeholder="Enter password">
             <button type="submit">Continue</button>

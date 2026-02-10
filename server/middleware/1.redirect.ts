@@ -51,7 +51,7 @@ export default eventHandler(async (event) => {
   const { homeURL, linkCacheTtl, caseSensitive, redirectWithQuery, redirectStatusCode } = useRuntimeConfig(event)
   const { cloudflare } = event.context
 
-  if (event.path === '/' && homeURL)
+  if (!slug && homeURL)
     return sendRedirect(event, homeURL)
 
   const { notFoundRedirect } = useRuntimeConfig(event)
@@ -72,6 +72,7 @@ export default eventHandler(async (event) => {
     }
 
     if (link) {
+      const query = getQuery(event)
       // Password protection check
       if (link.password) {
         const headerPassword = getHeader(event, 'x-link-password')
@@ -83,7 +84,7 @@ export default eventHandler(async (event) => {
           if (submittedPassword !== link.password) {
             setHeader(event, 'Content-Type', 'text/html; charset=utf-8')
             setHeader(event, 'Cache-Control', 'no-store')
-            return generatePasswordHtml(slug, true)
+            return generatePasswordHtml(slug, true, withQuery(`/${slug}`, query))
           }
         }
         else if (headerPassword) {
@@ -94,7 +95,7 @@ export default eventHandler(async (event) => {
         else {
           setHeader(event, 'Content-Type', 'text/html; charset=utf-8')
           setHeader(event, 'Cache-Control', 'no-store')
-          return generatePasswordHtml(slug)
+          return generatePasswordHtml(slug, false, withQuery(`/${slug}`, query))
         }
       }
 
@@ -107,7 +108,6 @@ export default eventHandler(async (event) => {
       }
 
       const userAgent = getHeader(event, 'user-agent') || ''
-      const query = getQuery(event)
       const shouldRedirectWithQuery = link.redirectWithQuery ?? redirectWithQuery
       const buildTarget = (url: string) => shouldRedirectWithQuery ? withQuery(url, query) : url
 

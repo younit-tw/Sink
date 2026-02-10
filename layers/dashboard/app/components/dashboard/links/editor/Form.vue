@@ -43,21 +43,23 @@ const form = useForm({
   } satisfies LinkFormData,
   onSubmit: async ({ value }) => {
     try {
+      const emptyToNull = (v: string) => v === '' ? null : v
+
       const linkData = {
         url: value.url,
         slug: value.slug,
-        comment: value.comment || undefined,
+        comment: emptyToNull(value.comment),
         expiration: value.expiration
           ? date2unix(value.expiration, 'end')
-          : undefined,
-        google: value.google || undefined,
-        apple: value.apple || undefined,
-        title: value.title || undefined,
-        description: value.description || undefined,
-        image: value.image || undefined,
-        cloaking: value.cloaking || undefined,
-        redirectWithQuery: value.redirectWithQuery || undefined,
-        password: value.password || undefined,
+          : null,
+        google: emptyToNull(value.google),
+        apple: emptyToNull(value.apple),
+        title: emptyToNull(value.title),
+        description: emptyToNull(value.description),
+        image: emptyToNull(value.image),
+        cloaking: value.cloaking,
+        redirectWithQuery: value.redirectWithQuery,
+        password: emptyToNull(value.password),
       }
       const { link: newLink } = await useAPI<{ link: Link }>(
         props.isEdit ? '/api/link/edit' : '/api/link/create',

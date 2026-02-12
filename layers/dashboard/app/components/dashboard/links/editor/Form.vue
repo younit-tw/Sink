@@ -51,7 +51,7 @@ const form = useForm({
         comment: emptyToNull(value.comment),
         expiration: value.expiration
           ? date2unix(value.expiration, 'end')
-          : null,
+          : undefined,
         google: emptyToNull(value.google),
         apple: emptyToNull(value.apple),
         title: emptyToNull(value.title),

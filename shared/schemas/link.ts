@@ -14,10 +14,10 @@ export const LinkSchema = z.object({
   comment: z.string().trim().max(2048).nullish(),
   createdAt: z.number().int().safe().default(() => Math.floor(Date.now() / 1000)),
   updatedAt: z.number().int().safe().default(() => Math.floor(Date.now() / 1000)),
-  expiration: z.number().int().safe().refine(expiration => expiration === null || expiration > Math.floor(Date.now() / 1000), {
+  expiration: z.number().int().safe().refine(expiration => expiration > Math.floor(Date.now() / 1000), {
     message: 'expiration must be greater than current time',
     path: ['expiration'],
-  }).nullable(),
+  }).optional(),
   title: z.string().trim().max(256).nullish(),
   description: z.string().trim().max(2048).nullish(),
   image: z.string().trim().max(128).nullish(),

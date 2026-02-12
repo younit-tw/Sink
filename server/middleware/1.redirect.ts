@@ -144,7 +144,8 @@ export default eventHandler(async (event) => {
         return sendRedirect(event, notFoundRedirect, 302)
       }
 
-      throw createError({ status: 404, statusText: 'Link not found' })
+      setResponseStatus(event, 404)
+      // throw createError({ status: 404, statusText: 'Link not found' })
     }
   }
 })
